@@ -6,10 +6,14 @@ orbs:
   gh: circleci/github-cli@1.0.4
 
 defaults: &defaults
+  working_directory: /mnt/ramdisk/snyk
   parameters:
     node_version:
       type: string
-      default: '14.17.5'
+      default: '16.13.1'
+    npm_version:
+      type: string
+      default: '8.1.2'
     root_tap_tests:
       type: boolean
       default: false
@@ -25,7 +29,6 @@ defaults: &defaults
     package_tests:
       type: boolean
       default: false
-  working_directory: /mnt/ramdisk/snyk
 
 commands:
   install_project_dependencies:
@@ -34,7 +37,6 @@ commands:
         type: string
       npm_version:
         type: string
-        default: '7.21.1'
       npm_cache_directory:
         type: string
         default: /mnt/ramdisk/.npm
@@ -165,6 +167,7 @@ jobs:
       - checkout
       - install_project_dependencies:
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
       - run:
           name: Linting project
           command: npm run lint
@@ -179,6 +182,7 @@ jobs:
       - install_shellspec_dependencies
       - install_project_dependencies:
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
       - attach_workspace:
           at: .
       - run:
@@ -214,9 +218,10 @@ jobs:
           node_version: << parameters.node_version >>
       - install_sdks_windows
       - install_project_dependencies:
-          npm_cache_directory: ~\AppData\Local\npm-cache
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
           npm_global_sudo: false
+          npm_cache_directory: ~\AppData\Local\npm-cache
       - attach_workspace:
           at: .
       - run:
@@ -289,6 +294,7 @@ jobs:
       - install_sdks_linux
       - install_project_dependencies:
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
       - attach_workspace:
           at: .
       - run:
@@ -351,6 +357,7 @@ jobs:
       - install_release_dependencies
       - install_project_dependencies:
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
       - attach_workspace:
           at: .
       - run:
@@ -392,6 +399,7 @@ jobs:
       - install_release_dependencies
       - install_project_dependencies:
           node_version: << parameters.node_version >>
+          npm_version: << parameters.npm_version >>
       - attach_workspace:
           at: .
       - run:
@@ -448,7 +456,7 @@ workflows:
                 - master
 
       - test-windows:
-          name: Windows, Node v14.17.5 - Packages, Jest, System Tests
+          name: Windows, Node v16.13.1 - Packages, Jest, System Tests
           context: nodejs-install
           requires:
             - Build
@@ -460,7 +468,7 @@ workflows:
           system_tests: true
           package_tests: true
       - test-windows:
-          name: Windows, Node v14.17.5 - Acceptance Tests
+          name: Windows, Node v16.13.1 - Acceptance Tests
           context: nodejs-install
           requires:
             - Build
@@ -470,7 +478,7 @@ workflows:
                 - master
           acceptance_tests: true
       - test-windows:
-          name: Windows, Node v14.17.5 - Root Tap Tests
+          name: Windows, Node v16.13.1 - Root Tap Tests
           context: nodejs-install
           requires:
             - Build
@@ -491,7 +499,7 @@ workflows:
                 - master
           matrix:
             parameters:
-              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.0']
+              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.1']
           jest_tests: true
           system_tests: true
           package_tests: true
@@ -506,7 +514,7 @@ workflows:
                 - master
           matrix:
             parameters:
-              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.0']
+              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.1']
           acceptance_tests: true
       - test-linux:
           name: Linux, Node v<< matrix.node_version >> - Root Tap Tests
@@ -519,7 +527,7 @@ workflows:
                 - master
           matrix:
             parameters:
-              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.0']
+              node_version: ['10.24.1', '12.22.5', '14.17.5', '16.13.1']
           root_tap_tests: true
 
       - dev-release:
