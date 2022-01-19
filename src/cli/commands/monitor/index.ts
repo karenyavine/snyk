@@ -82,12 +82,12 @@ export default async function monitor(...args0: MethodArgs): Promise<any> {
   if (options.docker && options['remote-repo-url']) {
     throw new Error('`--remote-repo-url` is not supported for container scans');
   }
-
   // Handles no image arg provided to the container command until
   // a validation interface is implemented in the docker plugin.
-  if (options.docker && paths.length === 0) {
+  if (options.docker && paths.length === 0 && !options.machine) {
     throw new MissingArgError();
   }
+
 
   apiOrOAuthTokenExists();
 
@@ -98,6 +98,10 @@ export default async function monitor(...args0: MethodArgs): Promise<any> {
     } catch (err) {
       debug('error getting repo contributors', err);
     }
+  }
+
+  if (paths.length === 0 && options.machine) {
+    paths.push('Local Machine')
   }
 
   const ecosystem = getEcosystem(options);

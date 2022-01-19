@@ -93,6 +93,9 @@ export default async function test(
   // Holds an array of scanned file metadata for output.
   let iacScanFailures: IacFileInDirectory[] | undefined;
 
+  if (paths.length === 0 && options.machine) {
+    paths.push('Local Machine')
+  }
   // Promise waterfall to test all other paths sequentially
   for (const path of paths) {
     // Create a copy of the options so a specific test can

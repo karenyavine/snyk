@@ -38,7 +38,7 @@ export function formatTestMeta(
         res.projectName,
     );
   }
-  if (options.docker) {
+  if (options.docker && !options.machine) {
     meta.push(
       chalk.bold(rightPadWithSpaces('Docker image: ', padToLength)) +
         options.path,

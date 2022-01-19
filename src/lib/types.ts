@@ -51,6 +51,7 @@ export interface Options {
   org?: string | null;
   path: string;
   docker?: boolean;
+  machine?: boolean;
   iac?: boolean;
   code?: boolean;
   unmanaged?: boolean; // C/C++ Ecosystem Support

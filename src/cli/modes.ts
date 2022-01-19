@@ -39,7 +39,7 @@ const modes: Record<string, ModeData> = {
     },
   },
   machine: {
-    allowedCommands: ['test'],
+    allowedCommands: ['test', 'monitor'],
     config: (args): [] => {
       args['docker'] = true;
       args['machine'] = true;
