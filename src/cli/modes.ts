@@ -38,6 +38,15 @@ const modes: Record<string, ModeData> = {
       return args;
     },
   },
+  machine: {
+    allowedCommands: ['test'],
+    config: (args): [] => {
+      args['docker'] = true;
+      args['machine'] = true;
+
+      return args;
+    },
+  },
 };
 
 export function parseMode(mode: string, args): string {

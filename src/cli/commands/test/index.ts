@@ -69,7 +69,7 @@ export default async function test(
 
   // Handles no image arg provided to the container command until
   // a validation interface is implemented in the docker plugin.
-  if (options.docker && paths.length === 0) {
+  if (options.docker && paths.length === 0 && !options.machine) {
     throw new MissingArgError();
   }
 

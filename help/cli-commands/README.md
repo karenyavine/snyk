@@ -38,6 +38,10 @@ Find security issues in Infrastructure as Code files.
 
 Find security issues using static code analysis.
 
+### [`snyk machine`](./machine.md)
+
+Test your linux machine for vulnerabilities.
+
 ### [`snyk log4shell`](./log4shell.md)
 
 Find Log4Shell vulnerability.
